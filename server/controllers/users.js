@@ -43,28 +43,28 @@ exports.logout = function(req, res){
   });
 };
 
-exports.oauthCallback = function(strategy){
-  return function(req, res, next){
-    passport.authenticate(strategy, function(err, user, redirectURL){
-      if(err || !user){
-        return res.redirect('/#/');
-      }
-      req.login(user, function(err){
-        if (err) {
-          return res.redirect('/#/');
-        }
+// exports.oauthCallback = function(strategy){
+//   return function(req, res, next){
+//     passport.authenticate(strategy, function(err, user, redirectURL){
+//       if(err || !user){
+//         return res.redirect('/#/');
+//       }
+//       req.login(user, function(err){
+//         if (err) {
+//           return res.redirect('/#/');
+//         }
 
-        return res.redirect(redirectURL || '/');
-      });
-    })(req, res, next);
-  };
-};
+//         return res.redirect(redirectURL || '/');
+//       });
+//     })(req, res, next);
+//   };
+// };
 
-exports.saveLocation = function(req, res){
+exports.saveLocationCoor = function(req, res){
   console.log('userLocObj', req.body);
-  User.saveLocation(req.body, function(response){
+  User.saveLocationCoor(req.body, function(response){
     if(response === null){
-      res.status(400).end();
+      res.status(200).end();
     }
   });
 }

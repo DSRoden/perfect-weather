@@ -11,7 +11,7 @@ exports.authenticate = function(req, res, next){
 };
 
 exports.bounce = function(req, res, next){
-  console.log('req', req);
+  // console.log('req', req);
   if(req.session.email || req.sessionID){
     next();
   }else{

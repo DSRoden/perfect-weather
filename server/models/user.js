@@ -1,7 +1,8 @@
 'use strict';
 
 var bcrypt = require('bcrypt'),
-    Mongo  = require('mongodb');
+    Mongo  = require('mongodb'),
+    Api    = require('./api');
 
 function User(){
 }
@@ -14,6 +15,13 @@ User.findById = function(id, cb){
   var _id = Mongo.ObjectID(id);
   User.collection.findOne({_id:_id}, cb);
 };
+
+User.findByEmail = function(email, cb){
+  console.log('email', email);
+  User.collection.findOne({email: email}, function(err, foundUser){
+    cb(foundUser);
+  });
+}
 
 User.register = function(o, cb){
   console.log('o', o);
@@ -37,8 +45,8 @@ User.facebookAuthenticate = function(token, secret, facebook, cb){
   console.log('facebook authentication in user model, token', token);
   User.collection.findOne({facebookId:facebook.id}, function(err, user){
     if(user){return cb(null, user);}
-    user = {facebookId:facebook.id, username:facebook.displayName, displayName:facebook.displayName, email:facebook.displayName, type:'facebook', loc:{}, homeLoc: {}, isPublic:true, photos: [], favorites :[]};
-    User.collection.save(user, cb(user));
+    user = {facebookId:facebook.id, username:facebook.displayName, displayName:facebook.displayName, email:facebook.displayName, type:'facebook', loc:{}, homeLoc: {}, homeCity: '', isPublic:true, photos: [], favorites :[]};
+    User.collection.save(user, cb(null, user));
   });
 };
 
@@ -75,9 +83,12 @@ User.googleAuthenticate = function(token, secret, google, cb){
 };
 
 // Location
-User.saveLocation = function(userLocObj, cb){
-  User.collection.update({email: userLocObj.email}, {$set: {homeLoc: {type: "Point", coordinates: [userLocObj.lon, userLocObj.lat]}}}, function(user){
-    console.log('user after location save', user);
+User.saveLocationCoor = function(userLocObj, cb){
+  Api.getCity({lat: userLocObj.lat, lon: userLocObj.lon}, function(city){
+    User.collection.update({email: userLocObj.email}, {$set: {homeLoc: {type: "Point", coordinates: [userLocObj.lon, userLocObj.lat]}, homeCity: city}}, function(user){
+      console.log('user after location save', user);
+      cb(user);
+    });
   });
 };
 

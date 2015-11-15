@@ -21,4 +21,8 @@ config.google = {
   callbackURL : 'http://localhost:3333/auth/google/callback'
 };
 
+config.weather = {
+  apiKey : process.env.WORLD_WEATHER
+}
+
 module.exports = config;

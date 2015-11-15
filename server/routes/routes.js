@@ -7,6 +7,7 @@ var morgan         = require('morgan'),
     security       = require('../lib/security'),
     debug          = require('../lib/debug'),
     users          = require('../controllers/users'),
+    apis           = require('../controllers/apis'),
     passport       = require('passport'),
     passportConfig = require('../lib/passport/config');
 
@@ -33,7 +34,7 @@ module.exports = function(app, express){
         return next(err); // will generate a 500 error
       }
       // Generate a JSON response reflecting signup
-      if(! user){
+      if(!user){
         return res.send({success : false, message : 'signupfailed'});
       }
       console.log('user', user);
@@ -74,7 +75,8 @@ module.exports = function(app, express){
   });
 
   app.use(security.bounce);
-  app.post('/saveUserLoc', users.saveLocation);
+  app.post('/saveUserLocCoor', users.saveLocationCoor);
+  app.post('/getWeather', apis.getWeather);
   app.get('/logout', users.logout);
   //console.log('Express: Routes Loaded');
 };
