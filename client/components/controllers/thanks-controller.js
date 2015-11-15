@@ -1,7 +1,7 @@
 (function(){
   'use strict';
   angular.module('models')
-  .controller('ThanksCtrl', ['$scope', '$rootScope', '$timeout', '$famous', '$http', '$localStorage', 'Status', function($scope, $rootScope, $timeout, $famous, $http, $localStorage, Status){
+  .controller('ThanksCtrl', ['$scope', '$rootScope', '$stateParams', '$timeout', '$famous', '$http', '$localStorage', 'Status', function($scope, $rootScope, $stateParams, $timeout, $famous, $http, $localStorage, Status){
     /************************************* BEGIN SETUP PAGE DIMENSIONS *******************************/
     ////// PAGE DIMENSIONS SETUP //////
     // view width and height variables
@@ -15,13 +15,9 @@
     $scope.getPageHeight = function(){
       return window.innerHeight;
     };
-    $scope.title = 'thanks';
 
-    Status.getStatus(function(data){
-        $rootScope.rootuser.name = data;
-        $timeout(function(){
-          window.close();
-        }, 200);
-    });
+    $scope.email = $stateParams.email;
+    console.log('email', $scope.email);
+    window.localStorage.setItem('email', $scope.email);
   }]);
 })();

@@ -26,7 +26,7 @@ module.exports = function(app, express){
   app.post('/login', users.login);
 
   // oauth routes
-  app.get('/auth/facebook', passport.authenticate('facebook'));
+  app.get('/auth/facebook', passport.authenticate('facebook', {scope: ['public_profile', 'email', 'user_friends', 'user_photos']}));
   app.get('/auth/facebook/callback', function(req, res, next){
     passport.authenticate('facebook', function(err, user, info){
       if(err){
@@ -36,8 +36,9 @@ module.exports = function(app, express){
       if(! user){
         return res.send({success : false, message : 'signupfailed'});
       }
+      console.log('user', user);
       req.session.email = user.email;
-      return res.redirect('/#/thanks');
+      return res.redirect('/#/thanks/' + user.email);
     })(req, res, next);
   });
 
@@ -51,8 +52,9 @@ module.exports = function(app, express){
       if(! user){
         return res.send({success : false, message : 'signupfailed'});
       }
-      req.session.email = user.email;
-      return res.redirect('/#/thanks');
+      // req.session.email = user.email;
+      console.log('user', user);
+      return res.redirect('/#/thanks/' + user.email);
     })(req, res, next);
   });
 
@@ -72,6 +74,7 @@ module.exports = function(app, express){
   });
 
   app.use(security.bounce);
+  app.post('/saveUserLoc', users.saveLocation);
   app.get('/logout', users.logout);
   //console.log('Express: Routes Loaded');
 };

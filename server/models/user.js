@@ -37,8 +37,8 @@ User.facebookAuthenticate = function(token, secret, facebook, cb){
   console.log('facebook authentication in user model, token', token);
   User.collection.findOne({facebookId:facebook.id}, function(err, user){
     if(user){return cb(null, user);}
-    user = {facebookId:facebook.id, username:facebook.displayName, displayName:facebook.displayName, email:facebook.displayName, type:'facebook', loc:{}, isPublic:true, photos: [], favorites :[]};
-    User.collection.save(user, cb);
+    user = {facebookId:facebook.id, username:facebook.displayName, displayName:facebook.displayName, email:facebook.displayName, type:'facebook', loc:{}, homeLoc: {}, isPublic:true, photos: [], favorites :[]};
+    User.collection.save(user, cb(user));
   });
 };
 
@@ -73,6 +73,14 @@ User.googleAuthenticate = function(token, secret, google, cb){
     User.collection.save(user, cb);
   });
 };
+
+// Location
+User.saveLocation = function(userLocObj, cb){
+  User.collection.update({email: userLocObj.email}, {$set: {homeLoc: {type: "Point", coordinates: [userLocObj.lon, userLocObj.lat]}}}, function(user){
+    console.log('user after location save', user);
+  });
+};
+
 
 module.exports = User;
 

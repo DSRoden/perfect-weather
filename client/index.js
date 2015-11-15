@@ -7,7 +7,7 @@
 
      $stateProvider
     .state('main',     {url:'/',         templateUrl:'views/main.html', controller:'MainCtrl'})
-    .state('thanks',   {url:'/thanks',   templateUrl: 'views/thanks.html', controller: 'ThanksCtrl'});
+    .state('thanks',   {url:'/thanks/{email}',   templateUrl: 'views/thanks.html', controller: 'ThanksCtrl'});
 
     //$httpProvider.interceptors.push('HttpInterceptor');
     $localForageProvider.config({name:'models', storeName:'cache', version:1.0});

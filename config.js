@@ -10,8 +10,8 @@ config.twitter = {
 
 config.facebook = {
   //models of models id
-  clientId : process.env.FACEBOOK_ID,
-  clientSecret : process.env.FACEBOOK_SECRET,
+  clientId : process.env.WEATHER_FACEBOOK_ID,
+  clientSecret : process.env.WEATHER_FACEBOOK_SECRET,
   callbackURL : 'http://localhost:3333/auth/facebook/callback'
 };
 

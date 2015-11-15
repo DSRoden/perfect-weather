@@ -60,4 +60,13 @@ exports.oauthCallback = function(strategy){
   };
 };
 
+exports.saveLocation = function(req, res){
+  console.log('userLocObj', req.body);
+  User.saveLocation(req.body, function(response){
+    if(response === null){
+      res.status(400).end();
+    }
+  });
+}
+
 
