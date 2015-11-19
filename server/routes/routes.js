@@ -8,6 +8,7 @@ var morgan         = require('morgan'),
     debug          = require('../lib/debug'),
     users          = require('../controllers/users'),
     apis           = require('../controllers/apis'),
+    posts          = require('../controllers/posts'),
     passport       = require('passport'),
     passportConfig = require('../lib/passport/config');
 
@@ -77,6 +78,7 @@ module.exports = function(app, express){
   app.use(security.bounce);
   app.post('/saveUserLocCoor', users.saveLocationCoor);
   app.post('/getWeather', apis.getWeather);
+  app.post('/createPost', posts.createOne);
   app.get('/logout', users.logout);
   //console.log('Express: Routes Loaded');
 };

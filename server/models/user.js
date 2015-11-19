@@ -45,7 +45,8 @@ User.facebookAuthenticate = function(token, secret, facebook, cb){
   console.log('facebook authentication in user model, token', token);
   User.collection.findOne({facebookId:facebook.id}, function(err, user){
     if(user){return cb(null, user);}
-    user = {facebookId:facebook.id, username:facebook.displayName, displayName:facebook.displayName, email:facebook.displayName, type:'facebook', loc:{}, homeLoc: {}, homeCity: '', isPublic:true, photos: [], favorites :[]};
+    var timeStamp = new Date();
+    user = {created_at: timeStamp, facebookId:facebook.id, username:facebook.displayName, displayName:facebook.displayName, email:facebook.displayName, type:'facebook', loc:{}, homeLoc: {}, homeCity: '', isPublic:true, photos: [], favorites :[]};
     User.collection.save(user, cb(null, user));
   });
 };

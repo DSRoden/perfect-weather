@@ -21,7 +21,7 @@ Api.getWeather = function(location, cb){
     requestString = 'http://api.worldweatheronline.com/free/v2/weather.ashx?q='+ lat +'%2C' + lon + '&format=json&num_of_days=5&key=' + apiKey;
   }
   request(requestString, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
+    if(!error && response.statusCode === 200){
       body = JSON.parse(body);
       var feelsLikeF = body.data.current_condition[0].FeelsLikeF;
       var weatherObj = {feelsLikeF: feelsLikeF};
